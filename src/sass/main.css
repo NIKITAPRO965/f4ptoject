@@ -44,9 +44,23 @@ button {
 }
 
 .container {
-  max-width: 1100px;
+  max-width: 1080px;
   margin: 0 auto;
-  padding: 0 8px;
-  line-height: 3;
-  background-color: #fff;
+  padding: 0 15px;
+  outline: 1px solid rgb(255, 0, 0);
+}
+@media screen and (min-width: 300px) {
+  .container {
+    width: 300px;
+  }
+}
+@media screen and (min-width: 624px) {
+  .container {
+    width: 624px;
+  }
+}
+@media screen and (min-width: 1080px) {
+  .container {
+    width: 1080px;
+  }
 }/*# sourceMappingURL=main.css.map */
