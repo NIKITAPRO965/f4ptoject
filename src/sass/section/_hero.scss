@@ -1,0 +1,47 @@
+.hero {
+  padding-top: 20px;
+  padding-bottom: 60px;
+
+  @media screen and (min-width: 768px) {
+    padding-top: 30px;
+    padding-bottom: 60px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+
+  @media screen and (min-width: 1200px) {
+    padding-top: 40px;
+    padding-bottom: 80px;    
+  }
+
+}
+
+
+.scrol {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 32px;
+  margin-top: 60px;
+
+  @media screen and (min-width: 1200px) {
+    margin-top: 80px;
+  }
+
+  &__button {
+    background: #ff3d9a;
+    color: #FFFFFF;
+    border: none;
+    padding: 10px 18px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.2s;
+  }
+
+  &__button:hover {
+    background: #ff5fb0;
+  }
+}
