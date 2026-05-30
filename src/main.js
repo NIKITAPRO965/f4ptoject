@@ -1,1 +1,2 @@
-// import "./js/test"
+import './sass/main.scss';
+import "./js/test"
