@@ -3,17 +3,20 @@
 .header {
   padding-top: 78px;
   padding-bottom: 52px;
+  background-image: url(../img/mblbg.webp);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
 
 
   @media screen and (min-width: 768px) {
+  background-image: url(../img/tbltbg.webp);
     padding-top: 40px;
     padding-bottom: 123px;
   }
 
   @media screen and (min-width: 1200px) {
+  background-image: url(../img/dskbg.webp);
     padding-bottom: 133px;
   }
 
