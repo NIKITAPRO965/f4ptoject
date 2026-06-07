@@ -170,6 +170,15 @@ body {
   background: rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(10px);
   padding: 12px 45px 10px 30px;
+  animation: glow 2s infinite alternate;
+}
+@keyframes glow {
+  from {
+    box-shadow: 0 0 5px #dc56c5, 0 0 15px rgba(220, 86, 197, 0.6);
+  }
+  to {
+    box-shadow: 0 0 8px #dc56c5, 0 0 15px rgba(220, 86, 197, 0.7), 0 0 25px rgba(220, 86, 197, 0.4);
+  }
 }
 .form__choose {
   font-size: 16px;
@@ -178,6 +187,21 @@ body {
   background: rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(10px);
   padding: 12px 140px 10px 10px;
+  background: linear-gradient(90deg, #dc56c5 0%, #ffffff 50%, #dc56c5 100%);
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: wave 3s linear infinite;
+  animation: glow 2s infinite alternate;
+}
+@keyframes glow {
+  from {
+    box-shadow: 0 0 5px #dc56c5, 0 0 15px rgba(220, 86, 197, 0.6);
+  }
+  to {
+    box-shadow: 0 0 8px #dc56c5, 0 0 15px rgba(220, 86, 197, 0.7), 0 0 25px rgba(220, 86, 197, 0.4);
+  }
 }
 .form__svgsearch, .form__svgchoose {
   width: 12px;
@@ -276,6 +300,12 @@ body {
   font-size: 14px;
   font-weight: 400;
   line-height: 1.5;
+  background: linear-gradient(90deg, #dc56c5 0%, #ffffff 50%, #dc56c5 100%);
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: wave 3s linear infinite;
 }
 @media screen and (min-width: 768px) {
   .footer__text {
@@ -284,6 +314,12 @@ body {
 }
 .footer__span {
   color: red;
+  background: linear-gradient(90deg, #dc56c5 0%, #ffffff 50%, #dc56c5 100%);
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: wave 3s linear infinite;
 }
 
 .modal {
