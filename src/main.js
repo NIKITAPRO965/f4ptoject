@@ -1,2 +1,4 @@
 import './sass/main.scss';
-import "./js/test"
+import "./js/header";
+import "./js/hero";
+import "./js/modal"

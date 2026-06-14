@@ -1,11 +1,11 @@
 {
-  "name": "f4project",
+  "name": "f4ptoject",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite --host",
-    "build": "vite build --base=/f4project/",
+    "build": "vite build --base=/f4ptoject/",
     "preview": "vite preview"
   },
   "devDependencies": {
