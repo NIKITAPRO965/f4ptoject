@@ -1,3 +1,4 @@
+@charset "UTF-8";
 a {
   text-decoration: none;
 }
@@ -285,30 +286,59 @@ body {
   background: #ff5fb0;
 }
 
+/* ==========================================================================
+   СЕКЦІЯ КАРТОК (Events Section & Grid) - Без прямокутників
+   ========================================================================== */
 .events {
   padding: 50px 0;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 .events__title {
   font-size: 2rem;
   margin-bottom: 30px;
   font-family: sans-serif;
+  text-align: center;
 }
 .events__grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+  padding: 0 15px;
+  margin: 0 auto;
+  list-style: none;
+}
+@media screen and (min-width: 624px) {
+  .events__grid {
+    grid-template-columns: repeat(3, 1fr);
+    max-width: 750px;
+    gap: 20px 15px;
+  }
+}
+@media screen and (min-width: 1080px) {
+  .events__grid {
+    grid-template-columns: repeat(4, 1fr);
+    max-width: 1200px;
+    gap: 40px 30px;
+    padding: 0;
+  }
 }
 .events__button {
-  color: #ffffff;
-  background-color: #dc56c5;
-  padding-bottom: 15px;
-  padding-left: 10px;
-  padding-right: 10px;
-  padding-top: 15px;
+  display: block;
+  color: #dc56c5;
+  background-color: #0e0e0e;
+  padding: 15px 30px;
   border-radius: 25px 0px 25px 0px;
-  margin-top: 30px;
-  margin-left: 500px;
   font-weight: bold;
+  border: 1px solid #dc56c5;
+  cursor: pointer;
+  margin: 40px auto 0 auto;
+  transition: all 0.2s ease;
+}
+.events__button:hover {
+  background-color: #dc56c5;
+  color: #0e0e0e;
 }
 
 .event-card {
@@ -316,20 +346,35 @@ body {
   align-items: center;
   flex-direction: column;
   background-color: transparent;
+  width: 100%;
+  margin: 0 auto;
 }
 .event-card__image-wrapper {
   position: relative;
   width: 100%;
+  max-width: 140px;
   aspect-ratio: 3/4;
   overflow: hidden;
-  border-radius: 50px 0px 50px 0px;
-  margin-bottom: 15px;
+  margin-bottom: 12px;
+  border-radius: 50px 0 50px 0;
+}
+@media screen and (min-width: 624px) {
+  .event-card__image-wrapper {
+    max-width: 180px;
+  }
+}
+@media screen and (min-width: 1080px) {
+  .event-card__image-wrapper {
+    max-width: 240px;
+  }
 }
 .event-card__img {
   width: 100%;
   height: 100%;
   -o-object-fit: cover;
      object-fit: cover;
+  display: block;
+  border-radius: 50px 0 50px 0;
   transition: transform 0.3s ease;
 }
 .event-card__img:hover {
@@ -340,20 +385,36 @@ body {
   flex-direction: column;
   align-items: center;
   text-align: center;
+  gap: 4px;
+  width: 100%;
 }
 .event-card__title {
   color: #dc56c5;
-  font-size: 1.25rem;
+  font-size: 1.1rem;
   font-weight: bold;
   margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+@media screen and (min-width: 1080px) {
+  .event-card__title {
+    font-size: 1.35rem;
+  }
 }
 .event-card__date {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: #ffffff;
   margin: 0;
 }
+@media screen and (min-width: 1080px) {
+  .event-card__date {
+    font-size: 0.95rem;
+  }
+}
 .event-card__location {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: #ffffff;
   margin: 0;
   display: flex;
@@ -361,53 +422,42 @@ body {
   justify-content: center;
   gap: 6px;
 }
+@media screen and (min-width: 1080px) {
+  .event-card__location {
+    font-size: 0.95rem;
+  }
+}
 .event-card__icon {
-  width: 14px;
-  height: 14px;
+  width: 12px;
+  height: 12px;
   fill: #ffffff;
   flex-shrink: 0;
 }
-
-.footer {
-  background-color: #000000;
-  padding-top: 80px;
-  padding-bottom: 20px;
-}
-.footer__text {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 4px;
-  color: #939393;
-  font-family: Montserrat;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 1.5;
-  background: linear-gradient(90deg, #dc56c5 0%, #ffffff 50%, #dc56c5 100%);
-  background-size: 200% auto;
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-  animation: wave 3s linear infinite;
-}
-@media screen and (min-width: 768px) {
-  .footer__text {
-    font-size: 16px;
+@media screen and (min-width: 1080px) {
+  .event-card__icon {
+    width: 14px;
+    height: 14px;
   }
 }
-.footer__span {
-  color: red;
-  background: linear-gradient(90deg, #dc56c5 0%, #ffffff 50%, #dc56c5 100%);
-  background-size: 200% auto;
-  background-clip: text;
-  -webkit-background-clip: text;
-  color: transparent;
-  animation: wave 3s linear infinite;
+
+/* ==========================================================================
+   МОДАЛЬНЕ ВІКНО (Modal & Backdrop Section)
+   ========================================================================== */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 200;
+  padding: 15px;
+  overflow-y: auto;
 }
 
 .modal {
   position: relative;
-  background-color: #fffaf0;
+  background-color: #FFF0F5;
   width: 100%;
   max-width: 290px;
   padding: 30px 20px;
@@ -415,11 +465,11 @@ body {
   font-family: sans-serif;
   display: flex;
   flex-direction: column;
-  margin: 0 auto;
+  margin: auto;
   border-top-left-radius: 80px;
   border-bottom-right-radius: 80px;
-  border-top-right-radius: 20px;
-  border-bottom-left-radius: 20px;
+  border-top-right-radius: 0;
+  border-bottom-left-radius: 0;
 }
 .modal__close-btn {
   position: absolute;
@@ -427,12 +477,19 @@ body {
   right: 20px;
   background: transparent;
   border: none;
-  font-size: 28px;
-  line-height: 1;
-  color: #4c00ff;
   cursor: pointer;
   padding: 0;
   z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal__close-btn svg {
+  width: 14px;
+  height: 14px;
+}
+.modal__close-btn svg path {
+  fill: #4c00ff;
 }
 .modal__avatar-wrap {
   width: 80px;
@@ -474,12 +531,18 @@ body {
   font-size: 12px;
   text-transform: uppercase;
   margin-bottom: 3px;
+  letter-spacing: 0.5px;
 }
 .modal__text {
   margin: 0;
   font-size: 13px;
   color: #333;
-  line-height: 1.3;
+  line-height: 1.4;
+}
+.modal__text--price {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 .modal__text--description {
   font-size: 12px;
@@ -493,28 +556,36 @@ body {
 .modal__price-row {
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  margin-bottom: 12px;
+  gap: 8px;
+  margin-bottom: 15px;
 }
 .modal__price-row:last-child {
   margin-bottom: 0;
 }
 .modal__barcode {
-  letter-spacing: -1px;
+  display: inline-block;
+  letter-spacing: 0;
   color: #000;
+  font-weight: bold;
+  font-size: 14px;
+  white-space: nowrap;
+}
+.modal__price-info {
+  font-size: 13px;
+  font-family: sans-serif;
 }
 .modal__btn {
   background-color: #4c00ff;
   color: white;
   border: none;
-  padding: 8px 15px;
+  padding: 10px 20px;
   border-radius: 4px;
   font-weight: bold;
   cursor: pointer;
   font-size: 11px;
   text-transform: uppercase;
   align-self: flex-start;
-  transition: background 0.2s;
+  transition: all 0.2s ease;
 }
 .modal__btn:hover {
   background-color: #3700b3;
@@ -522,36 +593,44 @@ body {
 .modal__author-wrap {
   display: flex;
   justify-content: center;
+  width: 100%;
 }
 .modal__author-btn {
   background: transparent;
   border: 1px solid #4c00ff;
   color: #4c00ff;
-  padding: 10px 20px;
+  padding: 12px 20px;
   border-radius: 4px;
   font-weight: bold;
   font-size: 11px;
   cursor: pointer;
   width: 100%;
   text-align: center;
-  transition: all 0.2s;
+  text-transform: uppercase;
+  transition: all 0.2s ease;
 }
 .modal__author-btn:hover {
   background-color: #4c00ff;
   color: #fff;
 }
 
+/* ПЛАНШЕТНИЙ АДАПТИВ (624px+) */
 @media screen and (min-width: 624px) {
   .modal {
     max-width: 590px;
     padding: 40px;
     border-top-left-radius: 120px;
     border-bottom-right-radius: 120px;
+    border-top-right-radius: 0;
+    border-bottom-left-radius: 0;
   }
   .modal__close-btn {
-    top: 25px;
-    right: 35px;
-    font-size: 32px;
+    top: 20px;
+    right: 25px;
+  }
+  .modal__close-btn svg {
+    width: 16px;
+    height: 16px;
   }
   .modal__avatar-wrap {
     width: 90px;
@@ -568,8 +647,8 @@ body {
     width: 200px;
     height: 300px;
     flex-shrink: 0;
-    border-radius: 5px;
     overflow: hidden;
+    border-radius: 50px 0 50px 0;
   }
   .modal__poster {
     width: 100%;
@@ -586,24 +665,33 @@ body {
     margin: 0;
     color: #000;
     font-weight: bold;
+    line-height: 1.2;
   }
   .modal__text {
     font-size: 14px;
   }
   .modal__author-btn {
     width: auto;
-    padding: 10px 30px;
+    padding: 12px 35px;
   }
 }
+/* ДЕСКТОПНИЙ АДАПТИВ (1080px+) */
 @media screen and (min-width: 1080px) {
   .modal {
     max-width: 850px;
     padding: 50px;
+    border-top-left-radius: 150px;
+    border-bottom-right-radius: 150px;
+    border-top-right-radius: 0;
+    border-bottom-left-radius: 0;
   }
   .modal__close-btn {
-    top: 30px;
-    right: 45px;
-    font-size: 36px;
+    top: 25px;
+    right: 35px;
+  }
+  .modal__close-btn svg {
+    width: 18px;
+    height: 18px;
   }
   .modal__avatar-wrap {
     width: 100px;
@@ -617,6 +705,7 @@ body {
   .modal__poster-wrap {
     width: 270px;
     height: 400px;
+    border-radius: 70px 0 70px 0;
   }
   .modal__group--info {
     display: none;
@@ -636,6 +725,47 @@ body {
     font-size: 12px;
   }
 }
+.btn-open-modal {
+  background-color: white;
+}
+
+.footer {
+  background-color: #000000;
+  padding-top: 80px;
+  padding-bottom: 20px;
+}
+.footer__text {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 4px;
+  color: #939393;
+  font-family: Montserrat;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  background: linear-gradient(90deg, #dc56c5 0%, #ffffff 50%, #dc56c5 100%);
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: wave 3s linear infinite;
+}
+@media screen and (min-width: 768px) {
+  .footer__text {
+    font-size: 16px;
+  }
+}
+.footer__span {
+  color: red;
+  background: linear-gradient(90deg, #dc56c5 0%, #ffffff 50%, #dc56c5 100%);
+  background-size: 200% auto;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  animation: wave 3s linear infinite;
+}
+
 .backdrop {
   position: fixed;
   inset: 0;
@@ -643,9 +773,273 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 4;
+  z-index: 200;
+  padding: 15px;
+  overflow-y: auto;
 }
 
-.btn-open-modal {
-  background-color: white;
+.modal {
+  position: relative;
+  background-color: #FFF0F5;
+  width: 100%;
+  max-width: 290px;
+  padding: 30px 20px;
+  box-sizing: border-box;
+  font-family: sans-serif;
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  border-top-left-radius: 80px;
+  border-bottom-right-radius: 80px;
+  border-top-right-radius: 0;
+  border-bottom-left-radius: 0;
+}
+.modal__close-btn {
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.modal__close-btn svg {
+  width: 14px;
+  height: 14px;
+}
+.modal__close-btn svg path {
+  fill: #4c00ff;
+}
+.modal__avatar-wrap {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  overflow: hidden;
+  margin: 0 auto 25px auto;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+}
+.modal__avatar-img {
+  width: 100%;
+  height: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.modal__poster-wrap {
+  display: none;
+}
+.modal__container {
+  width: 100%;
+  margin-bottom: 25px;
+}
+.modal__content {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  text-align: left;
+}
+.modal__title {
+  display: none;
+}
+.modal__group {
+  display: flex;
+  flex-direction: column;
+}
+.modal__label {
+  color: #ff00ff;
+  font-weight: bold;
+  font-size: 12px;
+  text-transform: uppercase;
+  margin-bottom: 3px;
+  letter-spacing: 0.5px;
+}
+.modal__text {
+  margin: 0;
+  font-size: 13px;
+  color: #333;
+  line-height: 1.4;
+}
+.modal__text--description {
+  font-size: 12px;
+  color: #555;
+}
+.modal__subtext {
+  margin: 2px 0 0 0;
+  font-size: 11px;
+  color: #666;
+}
+.modal__price-row {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 15px;
+}
+.modal__price-row:last-child {
+  margin-bottom: 0;
+}
+.modal__barcode {
+  display: inline-block;
+  margin-right: 5px;
+  letter-spacing: -0.5px;
+  color: #000;
+  font-weight: bold;
+}
+.modal__btn {
+  background-color: #4c00ff;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 11px;
+  text-transform: uppercase;
+  align-self: flex-start;
+  transition: all 0.2s ease;
+}
+.modal__btn:hover {
+  background-color: #3700b3;
+  transform: translateY(-1px);
+}
+.modal__author-wrap {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+.modal__author-btn {
+  background: transparent;
+  border: 1px solid #4c00ff;
+  color: #4c00ff;
+  padding: 12px 20px;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 11px;
+  cursor: pointer;
+  width: 100%;
+  text-align: center;
+  text-transform: uppercase;
+  transition: all 0.2s ease;
+}
+.modal__author-btn:hover {
+  background-color: #4c00ff;
+  color: #fff;
+}
+
+/* ==========================================================================
+   ПЛАНШЕТНИЙ АДАПТИВ (Tablet) - від 624px
+   ========================================================================== */
+@media screen and (min-width: 624px) {
+  .modal {
+    max-width: 590px;
+    padding: 40px;
+    border-top-left-radius: 120px;
+    border-bottom-right-radius: 120px;
+    border-top-right-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+  .modal__close-btn {
+    top: 20px;
+    right: 25px;
+  }
+  .modal__close-btn svg {
+    width: 16px;
+    height: 16px;
+  }
+  .modal__avatar-wrap {
+    width: 90px;
+    height: 90px;
+    margin-bottom: 30px;
+  }
+  .modal__container {
+    display: flex;
+    gap: 30px;
+    margin-bottom: 30px;
+  }
+  .modal__poster-wrap {
+    display: block;
+    width: 200px;
+    height: 300px;
+    flex-shrink: 0;
+    overflow: hidden;
+    border-radius: 50px 0 50px 0;
+  }
+  .modal__poster {
+    width: 100%;
+    height: 100%;
+    -o-object-fit: cover;
+       object-fit: cover;
+  }
+  .modal__content {
+    gap: 18px;
+  }
+  .modal__title {
+    display: block;
+    font-size: 22px;
+    margin: 0;
+    color: #000;
+    font-weight: bold;
+    line-height: 1.2;
+  }
+  .modal__text {
+    font-size: 14px;
+  }
+  .modal__author-btn {
+    width: auto;
+    padding: 12px 35px;
+  }
+}
+/* ==========================================================================
+   ДЕСКТОПНИЙ АДАПТИВ (Desktop/Laptop) - від 1080px
+   ========================================================================== */
+@media screen and (min-width: 1080px) {
+  .modal {
+    max-width: 850px;
+    padding: 50px;
+    border-top-left-radius: 150px;
+    border-bottom-right-radius: 150px;
+    border-top-right-radius: 0;
+    border-bottom-left-radius: 0;
+  }
+  .modal__close-btn {
+    top: 25px;
+    right: 35px;
+  }
+  .modal__close-btn svg {
+    width: 18px;
+    height: 18px;
+  }
+  .modal__avatar-wrap {
+    width: 100px;
+    height: 100px;
+    margin-bottom: 35px;
+  }
+  .modal__container {
+    gap: 50px;
+    margin-bottom: 35px;
+  }
+  .modal__poster-wrap {
+    width: 270px;
+    height: 400px;
+    border-radius: 70px 0 70px 0;
+  }
+  .modal__group--info {
+    display: none;
+  }
+  .modal__title {
+    font-size: 26px;
+  }
+  .modal__text {
+    font-size: 15px;
+  }
+  .modal__btn {
+    padding: 10px 25px;
+    font-size: 12px;
+  }
+  .modal__author-btn {
+    padding: 12px 40px;
+    font-size: 12px;
+  }
 }/*# sourceMappingURL=main.css.map */
