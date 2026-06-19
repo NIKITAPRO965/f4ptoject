@@ -1,29 +1,60 @@
+/* ==========================================================================
+   СЕКЦІЯ КАРТОК (Events Section & Grid) - Без прямокутників
+   ========================================================================== */
 .events {
   padding: 50px 0;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 
   &__title {
     font-size: 2rem;
     margin-bottom: 30px;
     font-family: sans-serif;
+    text-align: center;
   }
 
   &__grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 24px; 
+    /* Мобілки: 2 компактні картки в ряд */
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 16px; 
+    padding: 0 15px;
+    margin: 0 auto;
+    list-style: none;
+
+    /* Планшети: 3 картки в ряд і менші марджини */
+    @media screen and (min-width: 624px) {
+      grid-template-columns: repeat(3, 1fr);
+      max-width: 750px;
+      gap: 20px 15px; 
+    }
+
+    /* Комп'ютери: 4 великі масивні картки в ряд */
+    @media screen and (min-width: 1080px) {
+      grid-template-columns: repeat(4, 1fr);
+      max-width: 1200px;
+      gap: 40px 30px; 
+      padding: 0;
+    }
   }
 
-  &__button{
-    color: #ffffff;
-    background-color: #dc56c5;
-    padding-bottom: 15px;
-    padding-left: 10px;
-    padding-right: 10px;
-    padding-top: 15px;
+  &__button {
+    display: block;
+    color: #dc56c5;
+    background-color: #0e0e0e;
+    padding: 15px 30px;
     border-radius: 25px 0px 25px 0px;
-    margin-top: 30px;
-    margin-left: 500px;
     font-weight: bold;
+    border: 1px solid #dc56c5;
+    cursor: pointer;
+    margin: 40px auto 0 auto; 
+    transition: all 0.2s ease;
+
+    &:hover {
+      background-color: #dc56c5;
+      color: #0e0e0e;
+    }
   }
 }
 
@@ -32,20 +63,36 @@
   align-items: center;
   flex-direction: column;
   background-color: transparent;
+  width: 100%;
+  margin: 0 auto;
 
   &__image-wrapper {
     position: relative;
     width: 100%;
+    /* Мобільна базова ширина під 2 в ряд */
+    max-width: 140px; 
     aspect-ratio: 3 / 4;
-    overflow: hidden;
-    border-radius: 50px 0px 50px 0px; 
-    margin-bottom: 15px;
+    overflow: hidden; /* Повністю вичищено прямокутники */
+    margin-bottom: 12px;
+    border-radius: 50px 0 50px 0;
+
+    /* Планшети */
+    @media screen and (min-width: 624px) {
+      max-width: 180px;
+    }
+
+    /* Комп'ютери: робимо обкладинки великими */
+    @media screen and (min-width: 1080px) {
+      max-width: 240px; 
+    }
   }
 
   &__img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    display: block;
+    border-radius: 50px 0 50px 0;
     transition: transform 0.3s ease;
 
     &:hover {
@@ -58,35 +105,393 @@
     flex-direction: column;
     align-items: center;
     text-align: center;
+    gap: 4px;
+    width: 100%;
   }
 
   &__title {
     color: #dc56c5;
-    font-size: 1.25rem;
+    font-size: 1.1rem;
     font-weight: bold;
     margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+
+    @media screen and (min-width: 1080px) {
+      font-size: 1.35rem; 
+    }
   }
 
   &__date {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: #ffffff;
     margin: 0;
+
+    @media screen and (min-width: 1080px) {
+      font-size: 0.95rem;
+    }
   }
 
   &__location {
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     color: #ffffff;
     margin: 0;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 6px;
+
+    @media screen and (min-width: 1080px) {
+      font-size: 0.95rem;
+    }
   }
 
-    &__icon {
-    width: 14px; 
-    height: 14px;
+  &__icon {
+    width: 12px; 
+    height: 12px;
     fill: #ffffff;
     flex-shrink: 0;
+
+    @media screen and (min-width: 1080px) {
+      width: 14px;
+      height: 14px;
+    }
   }
+}
+
+/* ==========================================================================
+   МОДАЛЬНЕ ВІКНО (Modal & Backdrop Section)
+   ========================================================================== */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 200;
+  padding: 15px; 
+  overflow-y: auto; 
+}
+
+.modal {
+  position: relative;
+  background-color: #FFF0F5; 
+  width: 100%;
+  max-width: 290px; 
+  padding: 30px 20px;
+  box-sizing: border-box;
+  font-family: sans-serif;
+  display: flex;
+  flex-direction: column;
+  margin: auto; 
+  
+  border-top-left-radius: 80px;
+  border-bottom-right-radius: 80px;
+  border-top-right-radius: 0;
+  border-bottom-left-radius: 0;
+
+  &__close-btn {
+    position: absolute;
+    top: 15px;
+    right: 20px; 
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    svg {
+      width: 14px;
+      height: 14px;
+      path {
+        fill: #4c00ff; 
+      }
+    }
+  }
+
+  &__avatar-wrap {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 auto 25px auto;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.15);
+  }
+
+  &__avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &__poster-wrap {
+    display: none;
+  }
+
+  &__container {
+    width: 100%;
+    margin-bottom: 25px;
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    text-align: left;
+  }
+
+  &__title {
+    display: none; 
+  }
+
+  &__group {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__label {
+    color: #ff00ff; 
+    font-weight: bold;
+    font-size: 12px;
+    text-transform: uppercase;
+    margin-bottom: 3px;
+    letter-spacing: 0.5px;
+  }
+
+  &__text {
+    margin: 0;
+    font-size: 13px;
+    color: #333;
+    line-height: 1.4;
+  }
+
+  &__text--price {
+    display: flex;
+    align-items: center; /* Вирівнює штрих-код та ціну по одній лінії */
+    gap: 8px;            /* Робить акуратний відступ між ними */
+  }
+
+  &__text--description {
+    font-size: 12px;
+    color: #555;
+  }
+
+  &__subtext {
+    margin: 2px 0 0 0;
+    font-size: 11px;
+    color: #666;
+  }
+
+  &__price-row {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 15px;
+    
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__barcode {
+    display: inline-block;
+    letter-spacing: 0; /* Захист, щоб палички не зливалися */
+    color: #000;
+    font-weight: bold;
+    font-size: 14px;
+    white-space: nowrap;
+  }
+
+  &__price-info {
+    font-size: 13px;
+    font-family: sans-serif;
+  }
+
+  &__btn {
+    background-color: #4c00ff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 11px;
+    text-transform: uppercase;
+    align-self: flex-start; 
+    transition: all 0.2s ease;
+
+    &:hover {
+      background-color: #3700b3;
+    }
+  }
+
+  &__author-wrap {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  &__author-btn {
+    background: transparent;
+    border: 1px solid #4c00ff;
+    color: #4c00ff;
+    padding: 12px 20px;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 11px;
+    cursor: pointer;
+    width: 100%; 
+    text-align: center;
+    text-transform: uppercase;
+    transition: all 0.2s ease;
+
+    &:hover {
+      background-color: #4c00ff;
+      color: #fff;
+    }
+  }
+}
+
+/* ПЛАНШЕТНИЙ АДАПТИВ (624px+) */
+@media screen and (min-width: 624px) {
+  .modal {
+    max-width: 590px; 
+    padding: 40px;
+    
+    border-top-left-radius: 120px;
+    border-bottom-right-radius: 120px;
+    border-top-right-radius: 0;
+    border-bottom-left-radius: 0;
+
+    /* ВИПРАВЛЕНО: Хрестик плавно зміщено ближче до краю вікна */
+    &__close-btn {
+      top: 20px;
+      right: 25px;
+      svg {
+        width: 16px;
+        height: 16px;
+      }
+    }
+
+    &__avatar-wrap {
+      width: 90px;
+      height: 90px;
+      margin-bottom: 30px;
+    }
+
+    &__container {
+      display: flex; 
+      gap: 30px;
+      margin-bottom: 30px;
+    }
+
+    &__poster-wrap {
+      display: block;
+      width: 200px;
+      height: 300px;
+      flex-shrink: 0;
+      overflow: hidden;
+      border-radius: 50px 0 50px 0; 
+    }
+    
+    &__poster {
+      width: 100%;
+      height: 100%;
+      object-fit: cover; 
+    }
+
+    &__content {
+      gap: 18px;
+    }
+
+    &__title {
+      display: block;
+      font-size: 22px;
+      margin: 0;
+      color: #000;
+      font-weight: bold;
+      line-height: 1.2;
+    }
+
+    &__text {
+      font-size: 14px;
+    }
+
+    &__author-btn {
+      width: auto; 
+      padding: 12px 35px;
+    }
+  }
+}
+
+/* ДЕСКТОПНИЙ АДАПТИВ (1080px+) */
+@media screen and (min-width: 1080px) {
+  .modal {
+    max-width: 850px; 
+    padding: 50px;
+    
+    border-top-left-radius: 150px;
+    border-bottom-right-radius: 150px;
+    border-top-right-radius: 0;
+    border-bottom-left-radius: 0;
+
+    /* ВИПРАВЛЕНО: Кінцеве десктопне зміщення хрестика ближче до краю кута */
+    &__close-btn {
+      top: 25px;
+      right: 35px;
+      svg {
+        width: 18px;
+        height: 18px;
+      }
+    }
+
+    &__avatar-wrap {
+      width: 100px;
+      height: 100px;
+      margin-bottom: 35px;
+    }
+
+    &__container {
+      gap: 50px;
+      margin-bottom: 35px;
+    }
+
+    &__poster-wrap {
+      width: 270px;
+      height: 400px;
+      border-radius: 70px 0 70px 0; 
+    }
+
+    &__group--info {
+      display: none;
+    }
+
+    &__title {
+      font-size: 26px;
+    }
+
+    &__text {
+      font-size: 15px;
+    }
+
+    &__btn {
+      padding: 10px 25px;
+      font-size: 12px;
+    }
+
+    &__author-btn {
+      padding: 12px 40px;
+      font-size: 12px;
+    }
+  }
+}
+
+.btn-open-modal {
+  background-color: white;
 }
