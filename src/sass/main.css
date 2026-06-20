@@ -287,7 +287,7 @@ body {
 }
 
 /* ==========================================================================
-   СЕКЦІЯ КАРТОК (Events Section & Grid) - Без прямокутників
+   СЕКЦІЯ КАРТОК (Events Section & Flex-Grid) - Без прямокутників
    ========================================================================== */
 .events {
   padding: 50px 0;
@@ -302,26 +302,44 @@ body {
   text-align: center;
 }
 .events__grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  display: flex;
+  flex-wrap: wrap;
   gap: 16px;
   padding: 0 15px;
   margin: 0 auto;
   list-style: none;
 }
+.events__grid .events__item {
+  /* Мобілки: 2 компактні картки в ряд (100% мінус 1 проміжний gap розділити на 2) */
+  flex-grow: 0;
+  flex-shrink: 0;
+  flex-basis: calc((100% - 16px) / 2);
+}
+.events__grid {
+  /* Планшети: 3 картки в ряд і менші марджини */
+}
 @media screen and (min-width: 624px) {
   .events__grid {
-    grid-template-columns: repeat(3, 1fr);
     max-width: 750px;
-    gap: 20px 15px;
+    gap: 20px 15px; /* 20px вертикальний відступ, 15px горизонтальний */
   }
+  .events__grid .events__item {
+    /* 3 картки в ряд (100% мінус 2 проміжних горизонтальних gap розділити на 3) */
+    flex-basis: calc((100% - 30px) / 3);
+  }
+}
+.events__grid {
+  /* Комп'ютери: 4 великі масивні картки в ряд */
 }
 @media screen and (min-width: 1080px) {
   .events__grid {
-    grid-template-columns: repeat(4, 1fr);
     max-width: 1200px;
-    gap: 40px 30px;
+    gap: 40px 30px; /* 40px вертикальний відступ, 30px горизонтальний */
     padding: 0;
+  }
+  .events__grid .events__item {
+    /* 4 картки в ряд (100% мінус 3 проміжних горизонтальних gap розділити на 4) */
+    flex-basis: calc((100% - 90px) / 4);
   }
 }
 .events__button {
@@ -352,16 +370,21 @@ body {
 .event-card__image-wrapper {
   position: relative;
   width: 100%;
+  /* Мобільна базова ширина під 2 в ряд */
   max-width: 140px;
   aspect-ratio: 3/4;
   overflow: hidden;
   margin-bottom: 12px;
   border-radius: 50px 0 50px 0;
+  /* Планшети */
 }
 @media screen and (min-width: 624px) {
   .event-card__image-wrapper {
     max-width: 180px;
   }
+}
+.event-card__image-wrapper {
+  /* Комп'ютери */
 }
 @media screen and (min-width: 1080px) {
   .event-card__image-wrapper {
@@ -703,8 +726,11 @@ body {
     margin-bottom: 35px;
   }
   .modal__poster-wrap {
+    display: block;
     width: 270px;
     height: 400px;
+    flex-shrink: 0;
+    overflow: hidden;
     border-radius: 70px 0 70px 0;
   }
   .modal__group--info {
