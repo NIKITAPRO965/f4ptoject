@@ -1,5 +1,6 @@
 import logo from '../img/logo.png';
-document.querySelector('.header__img').src = logo;
+const headerImg = document.querySelector('.header__img');
+if (headerImg) headerImg.src = logo;
 
 import { getEvents } from './api.js';
 
@@ -18,12 +19,17 @@ function createCardHtml(event) {
   const location = event._embedded && event._embedded.venues && event._embedded.venues.length > 0 ? event._embedded.venues[0].name : 'Main Arena';
   const city = event._embedded && event._embedded.venues && event._embedded.venues.length > 0 ? event._embedded.venues[0].city?.name || 'US City' : 'US City';
 
-  const info = event.info || 'Atlas Weekend is the largest music festival in Ukraine. More than 200 artists will create a proper music festival atmosphere on 10 stages.';
+  const rawInfo = event.info || 'Atlas Weekend is the largest music festival in Ukraine. More than 200 artists will create a proper music festival atmosphere on 10 stages.';
+  const safeInfo = rawInfo.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+
   const currency = event.priceRanges && event.priceRanges.length > 0 ? event.priceRanges[0].currency : 'UAH';
   const standardMin = event.priceRanges && event.priceRanges.length > 0 ? event.priceRanges[0].min : '300';
   const standardMax = event.priceRanges && event.priceRanges.length > 0 ? event.priceRanges[0].max : '500';
   const vipMin = event.priceRanges && event.priceRanges.length > 0 ? Math.round(event.priceRanges[0].min * 2.5) : '1000';
   const vipMax = event.priceRanges && event.priceRanges.length > 0 ? Math.round(event.priceRanges[0].max * 3) : '1500';
+
+  const standardPriceString = `${standardMin}-${standardMax} ${currency}`;
+  const vipPriceString = `${vipMin}-${vipMax} ${currency}`;
 
   return `
     <li class="events__item event-card" 
@@ -33,9 +39,9 @@ function createCardHtml(event) {
         data-venue="${location}" 
         data-city="${city}" 
         data-image="${imageUrl}" 
-        data-standard="${standardMin}-${standardMax} ${currency}" 
-        data-vip="${vipMin}-${vipMax} ${currency}" 
-        data-info="${info}">
+        data-standard="${standardPriceString}" 
+        data-vip="${vipPriceString}" 
+        data-info="${safeInfo}">
       <div class="event-card__image-wrapper">
         <img src="${imageUrl}" alt="${title}" class="event-card__img" loading="lazy">
       </div>
@@ -77,7 +83,7 @@ async function fetchAndRenderLiveEvents(page = 0, isLoadMore = false) {
       if (loadMoreBtn) loadMoreBtn.style.display = 'block';
     } else {
       if (!isLoadMore) {
-        gridContainer.innerHTML = '<p class="events__empty" style="color: white; text-align: center; font-size: 1.5rem; width: 100%; grid-column: 1/-1;">No events found for your search request.</p>';
+        gridContainer.innerHTML = '<p class="events__empty" style="color: white; text-align: center; font-size: 1.5rem; width: 100%; grid-column: 1/-1; font-family: sans-serif;">No events found for your search request.</p>';
         if (loadMoreBtn) loadMoreBtn.style.display = 'none';
       }
     }
@@ -111,54 +117,8 @@ document.addEventListener('DOMContentLoaded', () => {
       debounceTimeout = setTimeout(() => {
         currentKeyword = e.target.value.trim();
         currentPage = 0;
-        
         fetchAndRenderLiveEvents(currentPage, false);
       }, 500);
-    });
-  }
-
-  const gridContainer = document.querySelector('.events__grid') || document.getElementById('events-grid');
-  if (gridContainer) {
-    gridContainer.addEventListener("click", (e) => {
-      const item = e.target.closest(".events__item");
-      if (!item) return;
-
-      e.preventDefault();
-      const { name, date, time, venue, city, image, standard, vip, info } = item.dataset;
-      const backdrop = document.createElement("div");
-      backdrop.classList.add("backdrop");
-
-      backdrop.innerHTML = `
-        <div class="modal">
-          <button class="modal__close-btn" type="button">
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://w3.org">
-              <path d="M14 1.41L12.59 0L7 5.59L1.41 0L0 1.41L5.59 7L0 12.59L1.41 14L7 8.41L12.59 14L14 12.59L8.41 7L14 1.41Z" fill="#4B4B4B"/>
-            </svg>
-          </button>
-          <div class="modal__avatar-wrap"><img class="modal__avatar-img" src="${image}" alt="${name}" /></div>
-          <div class="modal__container">
-            <div class="modal__poster-wrap"><img class="modal__poster" src="${image}" alt="${name}" /></div>
-            <div class="modal__content">
-              <div class="modal__group modal__group--info"><span class="modal__label">INFO</span><p class="modal__text modal__text--description">${info}</p></div>
-              <div class="modal__group"><span class="modal__label">WHEN</span><p class="modal__text">${date}</p><p class="modal__subtext">${time ? time.substring(0, 5) : '20:00'} (Local Time)</p></div>
-              <div class="modal__group"><span class="modal__label">WHERE</span><p class="modal__text">${city}, Ukraine</p><p class="modal__subtext">${venue}</p></div>
-              <div class="modal__group"><span class="modal__label">WHO</span><p class="modal__text">${name}</p></div>
-              <div class="modal__group">
-                <span class="modal__label">PRICES</span>
-                <div class="modal__price-row"><p class="modal__text"><span class="modal__barcode">║▌║█║▌│║</span>Standart ${standard}</p><button class="modal__btn" type="button">BUY TICKETS</button></div>
-                <div class="modal__price-row"><p class="modal__text"><span class="modal__barcode">║▌║█║▌│║</span>VIP ${vip}</p><button class="modal__btn" type="button">BUY TICKETS</button></div>
-              </div>
-            </div>
-          </div>
-          <div class="modal__author-wrap"><button class="modal__author-btn" type="button">MORE FROM THIS AUTHOR</button></div>
-        </div>
-      `;
-
-      document.body.append(backdrop);
-      const closeModal = () => backdrop.remove();
-      backdrop.querySelector(".modal__close-btn").addEventListener("click", closeModal);
-      backdrop.addEventListener("click", ev => { if (ev.target === backdrop) closeModal(); });
-      document.addEventListener("keydown", function esc(ev) { if (ev.key === "Escape") { closeModal(); document.removeEventListener("keydown", esc); } });
     });
   }
 });

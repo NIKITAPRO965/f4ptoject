@@ -22,7 +22,10 @@ function createCardHtml(event) {
     ? event._embedded.venues[0].city?.name || 'US City'
     : 'US City';
 
-  const info = event.info || 'Atlas Weekend is the largest music festival in Ukraine. More than 200 artists will create a proper music festival atmosphere on 10 stages.';
+  // ВИПРАВЛЕНО: Безпечно екрануємо лапки, щоб опис не ламав дата-атрибут у лішці
+  const rawInfo = event.info || 'Atlas Weekend is the largest music festival in Ukraine. More than 200 artists will create a proper music festival atmosphere on 10 stages.';
+  const safeInfo = rawInfo.replace(/"/g, '&quot;').replace(/'/g, '&#39;');
+
   const currency = event.priceRanges && event.priceRanges.length > 0 ? event.priceRanges[0].currency : 'UAH';
   
   const standardMin = event.priceRanges && event.priceRanges.length > 0 ? event.priceRanges[0].min : '300';
@@ -44,7 +47,7 @@ function createCardHtml(event) {
         data-image="${imageUrl}" 
         data-standard="${standardPriceString}" 
         data-vip="${vipPriceString}" 
-        data-info="${info}">
+        data-info="${safeInfo}">
         
       <div class="event-card__image-wrapper">
         <img src="${imageUrl}" alt="${title}" class="event-card__img" loading="lazy">
@@ -53,7 +56,7 @@ function createCardHtml(event) {
         <h3 class="event-card__title">${title}</h3>
         <p class="event-card__date">${formattedDate}</p>
         <p class="event-card__location">
-          <!-- ВИПРАВЛЕНО: Повний валідний лінк xmlns специфікації W3C для іконки -->
+          <!-- ВИПРАВЛЕНО: Повний валідний лінк специфікації W3C для іконки гео-мітки -->
           <svg class="event-card__icon" xmlns="http://w3.org" viewBox="0 0 640 640">
             <path d="M128 252.6C128 148.4 214 64 320 64C426 64 512 148.4 512 252.6C512 371.9 391.8 514.9 341.6 569.4C329.8 582.2 310.1 582.2 298.3 569.4C248.1 514.9 127.9 371.9 127.9 252.6zM320 320C355.3 320 384 291.3 384 256C384 220.7 355.3 192 320 192C284.7 192 256 220.7 256 256C256 291.3 284.7 320 320 320z"/>
           </svg>
@@ -102,7 +105,7 @@ async function fetchAndRenderEvents(page, isLoadMore = false) {
   } catch (error) {
     console.error('Render error:', error);
     if (loadMoreBtn) loadMoreBtn.textContent = 'Load more';
-  } {
+  } finally {
     isPlaceholderRunning = false;
   }
 }

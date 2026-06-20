@@ -1,4 +1,3 @@
-
 if (!window.isModalScriptAlreadyLoaded) {
   window.isModalScriptAlreadyLoaded = true;
 
@@ -14,7 +13,13 @@ if (!window.isModalScriptAlreadyLoaded) {
 
         if (document.querySelector('.backdrop')) return;
 
-        const { name, date, time, venue, city, image, standard, vip, info } = item.dataset;
+        const { name, date, time, venue, city, image, standard, vip } = item.dataset;
+        
+        let infoText = item.getAttribute('data-info');
+        if (!infoText || infoText === 'undefined' || infoText.trim() === '') {
+          infoText = 'Atlas Weekend is the largest music festival in Ukraine. More than 200 artists will create a proper music festival atmosphere on 10 stages.';
+        }
+        
         const backdrop = document.createElement("div");
         backdrop.classList.add("backdrop");
 
@@ -30,15 +35,16 @@ if (!window.isModalScriptAlreadyLoaded) {
               <img class="modal__avatar-img" src="${image}" alt="${name}" />
             </div>
 
-          <div class="modal__container">
-            <div class="modal__poster-wrap">
-              <img class="modal__poster" src="${image}" alt="${name}" />
-            </div>
+            <div class="modal__container">
+              <div class="modal__poster-wrap">
+                <img class="modal__poster" src="${image}" alt="${name}" />
+              </div>
 
               <div class="modal__content">
+                <!-- Тепер блок INFO гарантовано отримає текст і повернеться на своє місце над заголовком -->
                 <div class="modal__group modal__group--info">
                   <span class="modal__label">INFO</span>
-                  <p class="modal__text modal__text--description">${info}</p>
+                  <p class="modal__text modal__text--description">${infoText}</p>
                 </div>
 
                 <h2 class="modal__title">${name}</h2>
@@ -114,4 +120,3 @@ if (!window.isModalScriptAlreadyLoaded) {
     }
   });
 }
-
